@@ -1,0 +1,51 @@
+.marqueeContainer {
+  width: 100%;
+  overflow: hidden;
+}
+
+.marqueeContent {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.animateMarqueeLeft {
+  animation: marqueeLeft 50s linear infinite;
+}
+
+.animateMarqueeRight {
+  animation: marqueeRight 50s linear infinite;
+}
+
+.animateMarqueeLeft:hover,
+.animateMarqueeRight:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+@keyframes marqueeRight {
+  0% {
+    transform: translateX(-33.333%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Speed up on smaller screens */
+/* @media (max-width: 768px) {
+  .animateMarqueeLeft,
+  .animateMarqueeRight {
+    animation-duration: 20s;
+  }
+} */
