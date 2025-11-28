@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.HOSTINGER_USERNAME }}
           key: ${{ secrets.HOSTINGER_PRIVATE }}
           script: |
-            cd /home/sports.aimwindow.in/public_html/super-Sports-fe-development
+            cd /home/aimwin.in/public_html/super-Sports-fe-development
             npm install -g pm2
             pm2 stop my-app || true
             git pull origin development
