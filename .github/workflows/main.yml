@@ -20,29 +20,28 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: | 
-             script: |
-               echo "Switching to project directory"
-               cd /home/test.aimwin.in/public_html/super-Sports-fe-development
+            echo "Switching to project directory"
+            cd /home/test.aimwin.in/public_html/super-Sports-fe-development
 
-               echo "Pulling latest code"
-               git pull origin main
+            echo "Pulling latest code"
+            git pull origin main
 
-              echo "Loading NVM"
-              export NVM_DIR="$HOME/.nvm"
-              [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            echo "Loading NVM"
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-              echo "Using Node 20"
-              nvm install 20
-              nvm use 20
+            echo "Using Node 20"
+            nvm install 20
+            nvm use 20
 
-              echo "Installing dependencies"
-              npm install
+            echo "Installing dependencies"
+            npm install
 
-              echo "Building project"
-              npm run build
+            echo "Building project"
+            npm run build
 
-              echo "Restarting PM2"
-              pm2 stop nextapp || true
-              pm2 start npm --name nextapp -- start
-              pm2 save     
+            echo "Restarting PM2"
+            pm2 stop nextapp || true
+            pm2 start npm --name nextapp -- start
+            pm2 save     
                
