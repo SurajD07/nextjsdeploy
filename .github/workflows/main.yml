@@ -21,30 +21,28 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: | 
              script: |
-             
+               echo "Switching to project directory"
                cd /home/test.aimwin.in/public_html/super-Sports-fe-development
-               echo "Ensure Git repo is linked"
-               git config --global --add safe.directory /home/test.aimwin.in/public_html/super-Sports-fe-development
-               git remote set-url origin https://github.com/SurajD07/nextjsdeploy.git || true
-               git fetch --all
-               git reset --hard origin/main
 
-               echo "Loading NVM"
-               export NVM_DIR="$HOME/.nvm"
-               [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+               echo "Pulling latest code"
+               git pull origin main
 
-               echo "Ensure Node 20 is active"
-               nvm install 20
-               nvm use 20
+              echo "Loading NVM"
+              export NVM_DIR="$HOME/.nvm"
+              [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-               echo "Install dependencies"
-               npm install
+              echo "Using Node 20"
+              nvm install 20
+              nvm use 20
 
-               echo "Build Next.js"
-               npm run build
+              echo "Installing dependencies"
+              npm install
 
-               echo "Restart PM2"
-               pm2 stop nextapp || true
-               pm2 start npm --name nextapp -- start
-               pm2 save       
+              echo "Building project"
+              npm run build
+
+              echo "Restarting PM2"
+              pm2 stop nextapp || true
+              pm2 start npm --name nextapp -- start
+              pm2 save     
                
