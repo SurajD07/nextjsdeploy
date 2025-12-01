@@ -23,8 +23,6 @@ jobs:
              script: |
              
                cd /home/test.aimwin.in/public_html/super-Sports-fe-development
-               npm install -g pm2
-               pm2 stop nextapp || true
                echo "Ensure Git repo is linked"
                git config --global --add safe.directory /home/test.aimwin.in/public_html/super-Sports-fe-development
                git remote set-url origin https://github.com/SurajD07/nextjsdeploy.git || true
@@ -46,6 +44,7 @@ jobs:
                npm run build
 
                echo "Restart PM2"
+               pm2 stop nextapp || true
                pm2 start npm --name nextapp -- start
                pm2 save       
                
