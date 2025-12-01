@@ -19,16 +19,33 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            cd /home/test.aimwin.in/public_html/super-Sports-fe-development
-            npm install -g pm2
-            pm2 stop nextapp || true
-            git pull origin main
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-            nvm install 20
-            nvm use 20
-            pm2 restart nextapp || true
-            pm2 save
+          script: | 
+             script: |
+             
+               cd /home/test.aimwin.in/public_html/super-Sports-fe-development
+               npm install -g pm2
+               pm2 stop nextapp || true
+               echo "Ensure Git repo is linked"
+               git config --global --add safe.directory /home/test.aimwin.in/public_html/super-Sports-fe-development
+               git remote set-url origin https://github.com/SurajD07/nextjsdeploy.git || true
+               git fetch --all
+               git reset --hard origin/main
+
+               echo "Loading NVM"
+               export NVM_DIR="$HOME/.nvm"
+               [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+               echo "Ensure Node 20 is active"
+               nvm install 20
+               nvm use 20
+
+               echo "Install dependencies"
+               npm install
+
+               echo "Build Next.js"
+               npm run build
+
+               echo "Restart PM2"
+               pm2 start npm --name nextapp -- start
+               pm2 save       
+               
